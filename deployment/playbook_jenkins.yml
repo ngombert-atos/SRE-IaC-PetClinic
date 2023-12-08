@@ -1,0 +1,35 @@
+---
+- hosts: jenkins
+  become: yes
+  remote_user: ansible
+  become_user: root
+  tasks:
+  - name: Download Jenkins keyring
+    ansible.builtin.get_url:
+      url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+      dest: /usr/share/keyrings/jenkins-keyring.asc
+
+  - name: add jenkins deb repo
+    ansible.builtin.shell: echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
+
+  - name: apt update
+    ansible.builtin.apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+
+  - name: Install java
+    apt:
+      name: java-11-openjdk-devel
+      state: present
+
+  - name: Install jenkins
+    apt:
+      name: jenkins
+      state: latest
+
+  - name: daemon-reload to pick up config changes
+    ansible.builtin.systemd:
+      daemon_reload: yes
+
+  - name: Start jenkins
+    ansible.builtin.systemd:
+      name: jenkins
+      state: started
