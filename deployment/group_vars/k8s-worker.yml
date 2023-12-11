@@ -1,2 +1,4 @@
 ---
 kubernetes_role: "node"
+kubernetes_config_kubelet_configuration:
+  cgroupDriver: systemd
