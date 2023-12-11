@@ -1,0 +1,30 @@
+- hosts: k8s-prod
+  become: yes
+  remote_user: ansible
+  become_user: root
+
+  vars:
+    kubernetes_allow_pods_on_control_plane: true
+
+  pre_tasks:
+    - name: Add the br_netfilter module
+      community.general.modprobe:
+        name: br_netfilter
+        state: present
+    - name: Disable SWAP 
+      shell: |
+        swapoff -a
+    - name: Remove swap from fstab
+      replace:
+        path: /etc/fstab
+        regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
+        replace: '# \1'
+    - name: Add IPv4 forwarding
+      ansible.posix.sysctl:
+        name: net.ipv4.ip_forward
+        value: '1'
+        sysctl_set: true
+        
+  roles:
+    - geerlingguy.containerd
+    - geerlingguy.kubernetes
