@@ -26,11 +26,9 @@
       state: latest
 
   - name: Install kubectl
-    unarchive:
+    ansible.builtin.get_url:
       src: "https://dl.k8s.io/release/v1.25.14/bin/linux/amd64/kubectl"
-      dest: "/usr/local/bin/"
-      remote_src: yes
-      creates: "/usr/local/bin/kubectl"
+      dest: "/usr/local/bin/kubectl"
       mode: "+x"
 
   - name: Install jenkins
