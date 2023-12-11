@@ -3,8 +3,8 @@
   become: yes
   remote_user: ansible
   become_user: root
-  
-   tasks:
+
+  tasks:
   - name: apt update
     ansible.builtin.apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
 
@@ -17,17 +17,16 @@
     apt:
       name: maven
       state: present
-      
+
   - name: Install Nano
     apt:
       name: nano
       state: present
-	  
+
   - name: Install Git
     apt:
       name: git
       state: present
-	
   - name: daemon-reload to pick up config changes
     ansible.builtin.systemd:
       daemon_reload: yes
