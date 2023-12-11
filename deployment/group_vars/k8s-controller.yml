@@ -1,2 +1,4 @@
 ---
 kubernetes_role: "control_plane"
+kubernetes_config_kubelet_configuration:
+  cgroupDriver: systemd
