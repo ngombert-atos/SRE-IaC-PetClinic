@@ -9,7 +9,10 @@
     ansible.builtin.get_url:
       url: https://releases.jfrog.io/artifactory/api/gpg/key/public
       dest: /usr/share/keyrings/jfrog-keyring.asc
- 
+      
+  - name: apt-key add
+    ansible.builtin.shell: apt-key add /usr/share/keyrings/jfrog-keyring.asc
+    
   - name: apt update
     ansible.builtin.apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
 
