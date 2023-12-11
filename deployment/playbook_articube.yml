@@ -13,7 +13,7 @@
   - name: apt update
     ansible.builtin.apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
 
-   - name: deploiement JFrog
+  - name: deploiement JFrog
     ansible.builtin.shell: dpkg -i jfrog*.deb ;  systemctl enable artifactory.service
 
   - name: Start Artifactory
@@ -26,7 +26,7 @@
       name: openjdk-11-jdk
       state: present
 
- - name: Download SonarQube 
+  - name: Download SonarQube 
     ansible.builtin.get_url:
       url: https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.5.0.2216-linux.zip
       dest: /opt
@@ -37,16 +37,16 @@
   - name: deploiement SonarQube
     ansible.builtin.shell: unzip /opt/sonar-scanner-cli-4.5.0.2216-linux.zip 
  
-   - name: Install Nano
+  - name: Install Nano
     apt:
       name: nano
       state: present
-	  
-   - name: Install Git
+
+  - name: Install Git
     apt:
       name: git
       state: present
-	
+
   - name: daemon-reload to pick up config changes
     ansible.builtin.systemd:
       daemon_reload: yes
