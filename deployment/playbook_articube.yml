@@ -16,6 +16,11 @@
   - name: add jfrog deb repo
     ansible.builtin.shell: echo "deb https://releases.jfrog.io/artifactory/artifactory-debs {distribution} main" | sudo tee -a /etc/apt/sources.list
 
+  - name: Install Artifactory
+    apt: 
+      name: jfrog-artifactory-oss
+      state: present
+      
   - name: Start Artifactory
     ansible.builtin.systemd:
       name: artifactory
