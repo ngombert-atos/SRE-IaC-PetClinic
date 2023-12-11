@@ -7,14 +7,14 @@
   tasks:
   - name: Download Artifactory 
     ansible.builtin.get_url:
-      url: https://jfrog.com/community/download-artifactory-oss/
-      dest: /tmp
+      url: https://releases.jfrog.io/artifactory/api/gpg/key/public
+      dest: /usr/share/keyrings/jfrog-keyrig.asc
  
   - name: apt update
     ansible.builtin.apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
 
-  - name: deploiement JFrog
-    ansible.builtin.shell: dpkg -i jfrog*.deb ;  systemctl enable artifactory.service
+  - name: add jfrog deb repo
+    ansible.builtin.shell: echo "deb https://releases.jfrog.io/artifactory/artifactory-debs {distribution} main" | sudo tee -a /etc/apt/sources.list
 
   - name: Start Artifactory
     ansible.builtin.systemd:
