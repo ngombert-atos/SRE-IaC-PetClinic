@@ -2,4 +2,4 @@
 kubernetes_role: "control_plane"
 kubernetes_config_kubelet_configuration:
   cgroupDriver: systemd
-containerd_config_cgroup_driver_systemd: false
+containerd_config_cgroup_driver_systemd: true
