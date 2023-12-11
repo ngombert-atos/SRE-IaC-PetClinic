@@ -19,6 +19,10 @@
         path: /etc/fstab
         regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
         replace: '# \1'
+    - name: net.ipv4.ip_forward
+      ansible.posix.sysctl:
+      value: '1'
+      sysctl_set: true
         
   roles:
     - geerlingguy.containerd
