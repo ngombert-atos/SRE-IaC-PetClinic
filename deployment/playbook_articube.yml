@@ -39,8 +39,10 @@
       url: https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.5.0.2216-linux.zip
       dest: /opt
  
-  - name: apt update
-    ansible.builtin.apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+  - name: Install Unzip
+    ansible.builtin.apt: 
+      name: unzip
+      state: present
 
   - name: deploiement SonarQube
     ansible.builtin.shell: unzip /opt/sonar-scanner-cli-4.5.0.2216-linux.zip 
