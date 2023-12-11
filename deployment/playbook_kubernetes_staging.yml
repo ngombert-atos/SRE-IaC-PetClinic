@@ -21,8 +21,8 @@
         replace: '# \1'
     - name: net.ipv4.ip_forward
       ansible.posix.sysctl:
-      value: '1'
-      sysctl_set: true
+        value: '1'
+        sysctl_set: true
 
   roles:
     - geerlingguy.containerd
