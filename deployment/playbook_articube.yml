@@ -4,7 +4,7 @@
   remote_user: ansible
   become_user: root
   
-   tasks:
+  tasks:
   - name: Download Artifactory 
     ansible.builtin.get_url:
       url: https://jfrog.com/community/download-artifactory-oss/
