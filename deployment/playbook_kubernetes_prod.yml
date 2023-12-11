@@ -19,8 +19,9 @@
         path: /etc/fstab
         regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
         replace: '# \1'
-    - name: net.ipv4.ip_forward
+    - name: Add IPv4 forwarding
       ansible.posix.sysctl:
+        name: net.ipv4.ip_forward
         value: '1'
         sysctl_set: true
         
