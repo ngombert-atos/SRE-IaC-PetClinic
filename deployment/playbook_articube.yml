@@ -63,7 +63,7 @@
         name: "{{ sonar_db_name }}"
         owner: "{{ sonar_db_user }}"
       
-  - name: "Create db user"
+  - name: Create db user
     postgresql_user:
         state: present
         name: "{{ db_user }}"
@@ -71,7 +71,7 @@
       become: yes
       become_user: postgres
 
-  - name: "Grant db user access to app db"
+  - name: Grant db user access to app db
     postgresql_privs:
         type: database
         database: "{{ db_name }}"
