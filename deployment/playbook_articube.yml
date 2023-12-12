@@ -59,7 +59,7 @@
       state: started
 
   - name: Create the sonar database
-         postgresql_db:
+    postgresql_db:
         name: "{{ sonar_db_name }}"
         owner: "{{ sonar_db_user }}"
       
