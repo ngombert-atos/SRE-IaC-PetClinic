@@ -58,12 +58,10 @@
       name: postgresql
       state: started
 
-  - name: "Create app database"
-    postgresql_db:
-        state: present
-        name: "{{ db_name }}"
-      become: yes
-      become_user: postgres
+ - name: Create the sonar database
+         postgresql_db:
+        name: "{{ sonar_db_name }}"
+        owner: "{{ sonar_db_user }}"
       
   - name: "Create db user"
     postgresql_user:
