@@ -1,0 +1,155 @@
+---
+- hosts: artiqube
+  become: yes
+  remote_user: ansible
+  become_user: root
+  
+  vars_files:
+    - group_vars/vars_sonarkube.yml
+  
+  tasks:
+  - name: Download Artifactory 
+    ansible.builtin.get_url:
+      url: https://releases.jfrog.io/artifactory/api/gpg/key/public
+      dest: /usr/share/keyrings/jfrog-keyring.asc
+      
+  - name: apt-key add
+    ansible.builtin.shell: apt-key add /usr/share/keyrings/jfrog-keyring.asc
+    
+  - name: apt update
+    ansible.builtin.apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+
+  - name: add jfrog deb repo
+    ansible.builtin.shell: echo "deb https://releases.jfrog.io/artifactory/artifactory-debs jammy main" | sudo tee -a /etc/apt/sources.list
+
+  - name: Install Artifactory
+    apt: 
+      name: jfrog-artifactory-oss
+      state: present
+      
+  - name: Start Artifactory
+    ansible.builtin.systemd:
+      name: artifactory
+      state: started
+      
+  - name: Install java
+    apt:
+      name: openjdk-11-jdk
+      state: present
+
+  - name: Download PostgreSQL
+    ansible.builtin.get_url:
+      url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+      dest: /usr/share/keyrings/postgresql-keyring.asc
+      
+  - name: apt-key add
+    ansible.builtin.shell: apt-key add /usr/share/keyrings/postgresql-keyring.asc
+    
+  - name: Repot PostgreSQL
+    ansible.builtin.shell: echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" | sudo tee -a /etc/apt/sources.list
+
+  - name: Install PostgreSQL
+    apt: 
+      name: 
+       - postgresql
+       - postgresql-contrib
+      state: present
+
+  - name: Start postgresql
+    ansible.builtin.systemd:
+      name:     postgresql
+      state: started
+
+  - name: Install python3
+    apt:
+      name: 
+       - python3
+       - python3-psycopg2
+      state: present
+
+  - name: "Find out if PostgreSQL is initialized"
+    ansible.builtin.stat:
+      path: "/var/lib/pgsql/data/pg_hba.conf"
+    register: postgres_data
+
+  - name: "Initialize PostgreSQL"
+    shell: "postgresql-setup initdb"
+    when: not postgres_data.stat.exists
+ 
+  - name: "Start and enable services"
+    service: "name={{ item }} state=started enabled=yes"
+    with_items:
+      - postgresql
+
+  - name: "Create app database"
+    postgresql_db:
+      state: present
+      name: "{{ db_name }}"
+    become: yes
+    become_user: postgres
+
+  - name: "Create db user"
+    postgresql_user:
+      state: present
+      name: "{{ db_user }}"
+      password: "{{ db_password }}"
+    become: yes
+    become_user: postgres
+
+  - name: "Grant db user access to app db"
+    postgresql_privs:
+      type: database
+      database: "{{ db_name }}"
+      roles: "{{ db_user }}"
+      grant_option: no
+      privs: all
+    become: yes
+    become_user: postgres
+
+  - name: "Allow md5 connection for the db user"
+    postgresql_pg_hba:
+      dest: "~/data/pg_hba.conf"
+      contype: host
+      databases: all
+      method: md5
+      users: "{{ db_user }}"
+      create: true
+    become: yes
+    become_user: postgres
+    notify: restart postgres
+
+  - name: "Add some dummy data to our database"
+    become: true
+    become_user: postgres
+    shell: psql {{ db_name }} < /tmp/dump.sql
+
+  handlers:
+    - name: restart postgres
+      service: name=postgresql state=restarted 
+            
+  - name: Download SonarQube 
+    ansible.builtin.get_url:
+      url: https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.5.0.2216-linux.zip
+      dest: /opt
+ 
+  - name: Install Unzip
+    ansible.builtin.apt: 
+      name: zip
+      state: present
+
+  - name: deploiement SonarQube
+    ansible.builtin.shell: unzip /opt/sonar-scanner-cli-4.5.0.2216-linux.zip 
+    
+  - name: Install Nano
+    apt:
+      name: nano
+      state: present
+
+  - name: Install Git
+    apt:
+      name: git
+      state: present
+
+  - name: daemon-reload to pick up config changes
+    ansible.builtin.systemd:
+      daemon_reload: yes
