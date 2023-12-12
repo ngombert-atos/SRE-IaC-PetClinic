@@ -62,7 +62,9 @@
 
   - name: Install python3
     apt:
-      name: python3
+      name: 
+       - python3
+       - psycopg2-binary
       state: present
 
   - name: Create the sonar database
