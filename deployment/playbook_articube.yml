@@ -67,11 +67,6 @@
        - python3-psycopg2
       state: present
 
-  - name: Create the sonar database
-    postgresql_db:
-        name: "{{ db_name }}"
-        owner: "{{ db_user }}"
-      
   - name: Create db user
     postgresql_user:
         state: present
@@ -79,6 +74,13 @@
         password: "{{ db_password }}"
         become: yes
         become_user: postgres
+
+  - name: Create the sonar database
+    postgresql_db:
+        name: "{{ db_name }}"
+        owner: "{{ db_user }}"
+      
+  
 
   - name: Grant db user access to app db
     postgresql_privs:
