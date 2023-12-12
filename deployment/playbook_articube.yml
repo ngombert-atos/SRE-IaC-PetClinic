@@ -82,7 +82,7 @@
     become: yes
     become_user: postgres
     
-  - name: Grant db user access to app db
+  - name: Grant db user access to sonar db
     postgresql_privs:
         type: database
         database: "{{ db_name }}"
