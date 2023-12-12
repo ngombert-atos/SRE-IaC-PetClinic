@@ -82,7 +82,12 @@
         privs: all
         become: yes
         become_user: postgres
-        encrypted: yes   
+        encrypted: yes
+        
+  - name: Install python3
+    apt:
+      name: python3
+      state: present
     
   - name: Download SonarQube 
     ansible.builtin.get_url:
