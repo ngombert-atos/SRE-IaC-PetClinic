@@ -53,6 +53,7 @@
       name: 
        - postgresql
        - postgresql-contrib
+       - postgresql-server
       state: present
 
   - name: Start postgresql
