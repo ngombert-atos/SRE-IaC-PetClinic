@@ -25,6 +25,15 @@
       name: maven
       state: latest
 
+  - name: Install docker
+    ansible.builtin.apt: 
+      name: docker.io
+      state: latest
+  
+  - name : Add jenkins user to docker group
+    ansible.builtin.shell: |
+      adduser jenkins docker
+
   - name: Install kubectl
     ansible.builtin.get_url:
       url: "https://dl.k8s.io/release/v1.25.14/bin/linux/amd64/kubectl"
