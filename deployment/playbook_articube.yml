@@ -32,7 +32,7 @@
       name: artifactory
       state: started
       
-  - name: Install java
+ - name: Install java
     apt:
       name: openjdk-11-jdk
       state: present
@@ -96,9 +96,7 @@
 
   - name: deploiement SonarQube
     ansible.builtin.shell: unzip /opt/sonar-scanner-cli-4.5.0.2216-linux.zip 
-
-  
- 
+    
   - name: Install Nano
     apt:
       name: nano
