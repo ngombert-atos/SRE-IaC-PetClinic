@@ -1,7 +1,3 @@
-FROM eclipse-temurin:17-jdk-jammy
- 
-WORKDIR /app
+FROM tomcat
 
-COPY dist ./
-
-CMD ["java", "-jar ", "petclinic.war"]
+COPY dist/petclinic.war /usr/local/tomcat/webapps/
