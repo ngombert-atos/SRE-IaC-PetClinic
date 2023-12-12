@@ -62,8 +62,8 @@
 
   - name: Create the sonar database
     postgresql_db:
-        name: "{{ sonar_db_name }}"
-        owner: "{{ sonar_db_user }}"
+        name: "{{ db_name }}"
+        owner: "{{ db_user }}"
       
   - name: Create db user
     postgresql_user:
