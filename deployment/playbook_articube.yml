@@ -58,7 +58,7 @@
       name: postgresql
       state: started
 
- - name: "Create app database"
+  - name: "Create app database"
       postgresql_db:
         state: present
         name: "{{ db_name }}"
