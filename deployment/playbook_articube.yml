@@ -32,7 +32,7 @@
       name: artifactory
       state: started
       
- - name: Install java
+  - name: Install java
     apt:
       name: openjdk-11-jdk
       state: present
