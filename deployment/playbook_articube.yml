@@ -50,15 +50,14 @@
 
   - name: Install PostgreSQL
     apt: 
-      name: postgresql
-            
+      name: 
+       - postgresql
+       - postgresql-contrib
       state: present
 
   - name: Start postgresql
     ansible.builtin.systemd:
-      name: 
-        - postgresql
-        - postgresql-contrib
+      name:     postgresql
       state: started
 
   - name: Create the sonar database
