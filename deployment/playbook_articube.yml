@@ -60,6 +60,11 @@
       name:     postgresql
       state: started
 
+  - name: Install python3
+    apt:
+      name: python3
+      state: present
+
   - name: Create the sonar database
     postgresql_db:
         name: "{{ db_name }}"
@@ -83,12 +88,7 @@
         become: yes
         become_user: postgres
         encrypted: yes
-        
-  - name: Install python3
-    apt:
-      name: python3
-      state: present
-    
+            
   - name: Download SonarQube 
     ansible.builtin.get_url:
       url: https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.5.0.2216-linux.zip
