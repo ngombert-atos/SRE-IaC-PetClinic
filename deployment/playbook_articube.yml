@@ -91,7 +91,7 @@
         privs: all
     become: yes
     become_user: postgres
-        encrypted: yes
+    encrypted: yes
             
   - name: Download SonarQube 
     ansible.builtin.get_url:
