@@ -71,16 +71,16 @@
     postgresql_db:
         state: present
         name: "{{ db_name }}"
-        become: yes
-        become_user: postgres
+    become: yes
+    become_user: postgres
       
   - name: Create db user
     postgresql_user:
         state: present
         name: "{{ db_user }}"
         password: "{{ db_password }}"
-        become: yes
-        become_user: postgres
+    become: yes
+    become_user: postgres
 
   - name: Grant db user access to app db
     postgresql_privs:
@@ -89,8 +89,8 @@
         roles: "{{ db_user }}"
         grant_option: no
         privs: all
-        become: yes
-        become_user: postgres
+    become: yes
+    become_user: postgres
         encrypted: yes
             
   - name: Download SonarQube 
