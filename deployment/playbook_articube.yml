@@ -89,9 +89,9 @@
         roles: "{{ db_user }}"
         grant_option: no
         privs: all
-   become: yes
-   become_user: postgres
-   encrypted: yes
+    become: yes
+    become_user: postgres
+    encrypted: yes
             
   - name: Download SonarQube 
     ansible.builtin.get_url:
