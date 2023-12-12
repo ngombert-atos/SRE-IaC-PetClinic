@@ -53,7 +53,7 @@
       name: postgresql postgresql-contrib
       state: present
 
- - name: Start postgresql
+  - name: Start postgresql
     ansible.builtin.systemd:
       name: postgresql
       state: started
