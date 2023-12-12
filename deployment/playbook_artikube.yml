@@ -53,7 +53,6 @@
       name: 
        - postgresql
        - postgresql-contrib
-       - postgresql-server
       state: present
 
   - name: Start postgresql
@@ -72,15 +71,6 @@
     ansible.builtin.stat:
       path: "/var/lib/pgsql/data/pg_hba.conf"
     register: postgres_data
-
-  - name: "Initialize PostgreSQL"
-    shell: "postgresql-setup initdb"
-    when: not postgres_data.stat.exists
- 
-  - name: "Start and enable services"
-    service: "name={{ item }} state=started enabled=yes"
-    with_items:
-      - postgresql
 
   - name: "Create app database"
     postgresql_db:
