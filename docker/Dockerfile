@@ -4,4 +4,4 @@ WORKDIR /app
 
 COPY dist ./
 
-CMD ["java", "-jar ", "dist/*.jar"]
+CMD ["java", "-jar ", "petclinic.war"]
