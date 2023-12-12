@@ -84,14 +84,14 @@
     
   - name: Grant db user access to app db
     postgresql_privs:
-       type: database
-       database: "{{ db_name }}"
-       roles: "{{ db_user }}"
-       grant_option: no
-       privs: all
-    become: yes
-    become_user: postgres
-    encrypted: yes
+        type: database
+        database: "{{ db_name }}"
+        roles: "{{ db_user }}"
+        grant_option: no
+        privs: all
+   become: yes
+   become_user: postgres
+   encrypted: yes
             
   - name: Download SonarQube 
     ansible.builtin.get_url:
