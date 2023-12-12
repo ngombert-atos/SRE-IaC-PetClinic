@@ -1,4 +1,4 @@
 ---
-db_user: postgres
-db_password: postgres
+db_user: sonar
+db_password: sonar
 db_name: sonarqube
