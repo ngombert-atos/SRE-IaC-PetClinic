@@ -64,7 +64,7 @@
         name: "{{ db_name }}"
       become: yes
       become_user: postgres
-
+      
   - name: "Create db user"
     postgresql_user:
         state: present
