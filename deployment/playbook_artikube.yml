@@ -127,29 +127,29 @@
     - name: restart postgres
       service: name=postgresql state=restarted 
             
-  - name: Download SonarQube 
-    ansible.builtin.get_url:
-      url: https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.5.0.2216-linux.zip
-      dest: /opt
+    - name: Download SonarQube 
+      ansible.builtin.get_url:
+        url: https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.5.0.2216-linux.zip
+        dest: /opt
  
-  - name: Install Unzip
-    ansible.builtin.apt: 
-      name: zip
-      state: present
+    - name: Install Unzip
+      ansible.builtin.apt: 
+        name: zip
+        state: present
 
-  - name: deploiement SonarQube
-    ansible.builtin.shell: unzip /opt/sonar-scanner-cli-4.5.0.2216-linux.zip 
+    - name: deploiement SonarQube
+      ansible.builtin.shell: unzip /opt/sonar-scanner-cli-4.5.0.2216-linux.zip 
     
-  - name: Install Nano
-    apt:
-      name: nano
-      state: present
+    - name: Install Nano
+      apt:
+        name: nano
+        state: present
 
-  - name: Install Git
-    apt:
-      name: git
-      state: present
+    - name: Install Git
+      apt:
+        name: git
+        state: present
 
-  - name: daemon-reload to pick up config changes
-    ansible.builtin.systemd:
-      daemon_reload: yes
+    - name: daemon-reload to pick up config changes
+      ansible.builtin.systemd:
+        daemon_reload: yes
